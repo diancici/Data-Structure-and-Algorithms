@@ -8,7 +8,7 @@ class Graph:
         self.graph[v1].append(v2)
         
     def DFS(self, startNode):
-        st = [] # path
+        st = [] # save node has not been chosen 
         visited = set()
         st.append(startNode)
         
@@ -23,6 +23,7 @@ class Graph:
             for vertex in self.graph[cur]:
                 if (vertex not in visited):
                     st.append(vertex)
+
 
 g = Graph()
 g.insertEdge(2,5)

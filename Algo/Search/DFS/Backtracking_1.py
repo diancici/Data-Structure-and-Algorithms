@@ -20,27 +20,28 @@ from typing import List
 class Solution:
     def permute(self, nums: List[int]):
         self.res = []
+        #visited = set()
         self.backtrack(nums, [])
         return self.res
     
     def backtrack(self, nums, path):
         if len(path) == len(nums):
-            print("Path complete: ", path)
-            self.res.append(path)
-            print("self.res: ", self.res)
-            return
-            #print("self.res: ", self.res)
+            self.res.append(path[:])
+            print("res :", self.res)
+            return 
+    
         
         for num in nums:
             # make a choice
             if num not in path:
-                path.append(num) 
-                print("Track add: ", path)               
+                path.append(num)
+                print("path after append: ", path)        
                 # recursion, move to the next step
                 self.backtrack(nums, path)
                 # delete the choice from path (back to last step)
                 path.pop()
-                print("Track deleted: ", path)  
+                print("path after pop: ", path)  
+
 s = Solution()
 nums = [1,2,3]
 print(s.permute(nums))
