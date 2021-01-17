@@ -20,28 +20,27 @@ from typing import List
 class Solution:
     def permute(self, nums: List[int]):
         self.res = []
-        #visited = set()
         self.backtrack(nums, [])
         return self.res
     
-    def backtrack(self, nums, path):
-        if len(path) == len(nums):
-            self.res.append(path[:])
-            print("res :", self.res)
+    def backtrack(self, choices, visited):
+        if len(visited) == len(choices):
+            self.res.append(visited[:])
             return 
     
         
-        for num in nums:
+        for choice in choices:
             # make a choice
-            if num not in path:
-                path.append(num)
-                print("path after append: ", path)        
+            if choice not in visited:
+                visited.append(choice)       
                 # recursion, move to the next step
-                self.backtrack(nums, path)
+                self.backtrack(choices, visited)
                 # delete the choice from path (back to last step)
-                path.pop()
-                print("path after pop: ", path)  
+                visited.pop()
+
 
 s = Solution()
 nums = [1,2,3]
 print(s.permute(nums))
+
+## Leetcode 51. N-Queens
