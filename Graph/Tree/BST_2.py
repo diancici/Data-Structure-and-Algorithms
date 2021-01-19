@@ -7,7 +7,7 @@ class TreeNode:
 ## Leetcode 98 Validate Bnary Search Tree
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
-        return self.isValidBST(root, None, None)
+        return self.validate(root, None, None)
     
     def validate(self, root, minNode, maxNode):
         if root is None:
@@ -73,3 +73,5 @@ class Solution:
         while(node.left is not None):
             node = node.left
         return node
+
+    
