@@ -1,3 +1,4 @@
+from typing import List
 ## Leetcode 297. Serialize and Deserialize Binary Tree
 class TreeNode(object):
     def __init__(self, x):
@@ -138,3 +139,24 @@ class Codec:
                     parent.right = None
 
         return root
+
+
+##  Leetcode 108. Convert Sorted Array to Binary Search Tree
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        return self.build(nums, 0, len(nums)-1)
+                
+    def build(self, nums, l, h):
+        if h < l:
+            return None
+        
+        index = (h-l)//2+l # index of the current root
+        left = self.build(nums, l, index-1)
+        right = self.build(nums, index+1, h)
+        # post order
+        root = TreeNode(nums[index])
+        root.left = left
+        root.right = right
+        
+        return root
+        
