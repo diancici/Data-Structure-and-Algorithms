@@ -3,75 +3,49 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
-
-## Leetcode 98 Validate Bnary Search Tree
-class Solution:
-    def isValidBST(self, root: TreeNode) -> bool:
-        return self.validate(root, None, None)
-    
-    def validate(self, root, minNode, maxNode):
-        if root is None:
-            return True
-        # minNode < root < maxNode
-        if minNode != None and root.val < minNode: return False
-        if maxNode != None and root.val > maxNode: return False
-
-        # for the left: maxNode = root
-        # for the right: minNode = root
-        return self.validate(root.left, minNode, root) and self.validate(root.right, root, maxNode)
-
-
-## Leetcode 700. Search in a binary search tree
-class Solution:
-    def searchBST(self, root: TreeNode, val: int) -> TreeNode:
-        if root is None:
-            return None
         
-        if root.val == val:
-            return root
-        if root.val < val:
-            return self.searchBST(root.right, val)
-        if root.val > val:
-            return self.searchBST(root.left, val)
-
-## Leetcode 701. Insert into a binary search tree
+# Leetcode 96. Unique Binary Search Trees, return a number
 class Solution:
-    def inserIntoBST(self, root: TreeNode, val:int) -> TreeNode:
-        if root is None:
-            root = TreeNode(val)
-            return root
-        if root.val < val:
-            root.right = self.inserIntoBST(root.right, val)
-        else:
-            root.left = self.inserIntoBST(root.left, val)
-        return root
+    def numTrees(self, n):
+        self.memo = [[0 for i in range(n+1)] for j in range(n+1)]
+        return self.count(1,n)
 
-## Leetcode 450. Delete Node in a BST
+    def count(self, l, h):
+        if l > h:
+            return 1
+        if self.memo[l][h] != 0:
+            return self.memo[l][h]
+
+        res = 0
+        for i in range(l, h+1):
+            left = self.count(l, i-1)
+            right = self.count(i+1, h)
+            res += left * right
+        self.memo[l][h] = res
+        return res
+
+
+## Leetcode 95. Unique Binary Search Trees II, return list[list]
 class Solution:
-    def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
-        if root is None:
-            return None
-        
-        if root.val < key:
-            root.right = self.deleteNode(root.right, key)
-        if root.val > key:
-            root.left = self.deleteNode(root.left, key)
-        if root.val == key:
-            if root.left is None:
-                return root.right
-            if root.right is None:
-                return root.left
-            else:
-                # find the smallest node in the right
-                minNode = self.getMin(root.right)
-                root.val = minNode.val
-                root.right = self.deleteNode(root.right, minNode.val)
-                
-        return root
+    def generateTrees(self, n: int):
+        if n == 0: return []
+        return self.build(1,n)
 
-    def getMin(self, node: TreeNode):
-        while(node.left is not None):
-            node = node.left
-        return node
+    # return the list which contans all possible sub-trees in [l,h]
+    def build(self, l, h):
+        res = []
+        if l > h:
+            res.append(None)
+            return res
 
-    
+        for i in range(l, h+1):
+            # build left and right BST valid tree
+            leftTree = self.build(l, i-1)
+            rightTree = self.build(i+1, h)
+            for left in leftTree:
+                for right in rightTree:
+                    root = TreeNode(i)
+                    root.left = left
+                    root.right = right
+                    res.append(root)
+        return res

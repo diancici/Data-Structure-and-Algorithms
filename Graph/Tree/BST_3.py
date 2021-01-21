@@ -1,51 +1,38 @@
+## leetcode 1373 Maximum Sum BST in Binary Tree
+# Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
-        
-# Leetcode 96. Unique Binary Search Trees
 class Solution:
-    def numTrees(self, n):
-        self.memo = [[0 for i in range(n+1)] for j in range(n+1)]
-        return self.count(1,n)
-
-    def count(self, l, h):
-        if l > h:
-            return 1
-        if self.memo[l][h] != 0:
-            return self.memo[l][h]
-
-        res = 0
-        for i in range(l, h+1):
-            left = self.count(l, i-1)
-            right = self.count(i+1, h)
-            res += left * right
-        self.memo[l][h] = res
-        return res
-
-
-## Leetcode 95. Unique Binary Search Trees II
-class Solution:
-    def generateTrees(self, n: int):
-        if n == 0: return []
-        return self.build(1,n)
-
-    # return the list which contans all possible sub-trees in [l,h]
-    def build(self, l, h):
-        res = []
-        if l > h:
-            res.append(None)
+    def maxSumBST(self, root: TreeNode) -> int:
+        self.maxSum = 0
+        self.traverse(root)
+        return self.maxSum
+    
+    # return list[isBST, min, max, sum]
+    def traverse(self, root):
+        # base case
+        if root is None:
+            res = [1, float('inf'), -float('inf'), 0]
             return res
-
-        for i in range(l, h+1):
-            # build left and right BST valid tree
-            leftTree = self.build(l, i-1)
-            rightTree = self.build(i+1, h)
-            for left in leftTree:
-                for right in rightTree:
-                    root = TreeNode(i)
-                    root.left = left
-                    root.right = right
-                    res.append(root)
+        
+        left = self.traverse(root.left)
+        right = self.traverse(root.right)
+        
+        # initalize
+        res = [0]
+        for i in range(3):
+            res.append(0)
+        if left[0] == 1 and right[0] == 1 and root.val > left[2] and root.val < right[1]:
+            # root and its subtree is a BST
+            res[0] = 1
+            res[1] = min(left[1], root.val)
+            res[2] = max(right[2], root.val)
+            res[3] = left[3]+right[3]+root.val
+            self.maxSum = max(self.maxSum, res[3])
+        else:
+            res[0] = 0
+            
         return res

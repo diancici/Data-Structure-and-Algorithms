@@ -92,4 +92,3 @@ class Solution:
         root.right = self.build(inorder, index+1, inEnd,
                             postorder, postStart+sizeLeft, postEnd-1)
         return root
-        
