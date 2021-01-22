@@ -1,3 +1,4 @@
+from typing import List
 # Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -55,9 +56,54 @@ class Solution:
         return minimum
 
 
+## Leetcode 110.Balanced Binary Tree
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        return self.check(root) != -1
+        
+    def check(self, root):
+        """Return the height of tree"""
+        if root is None:
+            return 0
+        left = self.check(root.left)
+        right = self.check(root.right)
+        if left == -1 or right == -1 or abs(right-left) > 1 :
+            return -1
+        return 1 + max(left, right)
 
 
+## Leetcode 112. Path Sum
+class Solution:
+    def hasPathSum(self, root: TreeNode, sum: int) -> bool:
+        return self.hasSum(root, sum, 0)
+    
+    def hasSum(self, node, target, cur_sum):
+        if node is None: return False
+        cur_sum += node.val
+        if cur_sum == target and node.right is None and node.left is None: return True
+        return self.hasSum(node.right, target, cur_sum) or self.hasSum(node.left, target, cur_sum)
 
+
+## Leetcode 113. Path Sum II
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
+        self.ans = []
+        self.traverse(root, sum, 0, [])
+        return self.ans
+    
+    def traverse(self, root, target, cur_sum, path):
+        if root is None: 
+            return         
+        cur_sum += root.val
+        path.append(root.val)
+        if root.left is None and root.right is None:
+            if cur_sum == target:
+                self.ans.append(path[:])
+            
+                    
+        self.traverse(root.left, target, cur_sum, path[:]) # deep copy because path is mutable
+        self.traverse(root.right, target, cur_sum, path[:])
+        
 
 
 ## lEETCODE 116. Populating Next Right Pointers in Each Node
