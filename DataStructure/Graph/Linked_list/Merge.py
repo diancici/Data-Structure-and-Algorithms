@@ -47,7 +47,7 @@ class Solution:
 
 # Solution 2 : using priorityQueue
 # O(Nlogk) in time
-from Queue import PriorityQueue
+from queue import PriorityQueue
 class Solution:
     def mergeKLists(self, lists):
         q = PriorityQueue()

@@ -1,6 +1,5 @@
 ## Leetcode 141. Linked List Cycle
-
-# Two-pointer technique
+# fast, slow technique
 class Solution:
     def hasCycle(self, head):
         slow = fast = head
@@ -44,4 +43,24 @@ class Solution:
             q = q.next if q else headA
             
         return p
+
+
+## Find the penultimate kth element of the linked list
+def findKthelement(head, k):
+    slow = head
+    fast = head
+
+    while (k > 0):
+        fast = fast.next
+        k -= 1
+
+    while(fast):
+        fast = fast.next
+        slow = slow.next
+
+    return slow
+
+    
+    
+
 

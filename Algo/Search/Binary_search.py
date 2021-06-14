@@ -27,7 +27,7 @@ def leftBorder(nums, target):
             left = mid + 1
         elif nums[mid] == target:
             right = mid - 1
-    # check if left is overborder
+    # check if left is overborder or right is overborder 
     if (left >= len(nums) or nums[left] != target):
         return -1
     return left
