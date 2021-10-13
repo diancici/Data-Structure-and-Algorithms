@@ -135,7 +135,7 @@ class MyLinkedList:
         """
         new_node = Node(val)
         temp = self.head
-        if temp is None: # add at the begining is the list is empty
+        if temp is None: # add at the begining if the list is empty
             self.head = new_node
         else:    
             while(temp.next is not None):
