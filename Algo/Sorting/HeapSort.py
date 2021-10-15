@@ -3,36 +3,37 @@
 # S(O) = O(n)
 from typing import List   
 
-def heapSort(arr: List):
-    heap_size = len(arr)
-    build_heap(arr)
-    print("the max_heap built of the arr: ", arr)
-    
-    for i in range(heap_size-1, 0, -1):
-        arr[0], arr[i] = arr[i], arr[0]
-        heap_size -= 1
-        sink(arr, heap_size, 0)
+class heapSort():
+    def heapSort(self, arr: List):
+        heap_size = len(arr)
+        self.build_heap(arr, heap_size)
+        print("the max_heap built of the arr: ", arr)
         
-    return arr
+        for i in range(heap_size-1, 0, -1):
+            temp = arr[i]
+            arr[i] = arr[0]
+            arr[0] = temp
+            heap_size -= 1
+            self.sink(arr, heap_size, 0)
+            print(i, heap_size, arr)
+            
+        return arr
 
-def sink(arr: List, heap_size: int, i: int):
-    # a complete binary tree
-    left = 2*i+1 # node child left
-    right = 2*i+2 # node child right
-    largest = i
-    if left < heap_size and arr[left] > arr[largest]:
-        largest = left
-    if right < heap_size and arr[right] > arr[largest]:
-        largest = right
-    if largest != i:
-        arr[i], arr[largest] = arr[largest], arr[i]
-        sink(arr, heap_size, largest)
+    def sink(self, arr: List, n: int, k: int):
+        # a complete binary tree
+        while (2*k < n - 1):
+            j = 2*k + 1 # node child left
+            if j < n-1 and arr[j] < arr[j+1]:
+                j += 1
+            if arr[k] > arr[j]: break # heap is maintained
+            arr[k], arr[j] = arr[j], arr[k] # exchange two nodes if child > parent
+            k = j
 
-def build_heap(arr):
-    heap_size = len(arr)
-    for i in range((heap_size//2), -1, -1): # Sort from the leaf node for max_heap
-        sink(arr, heap_size, i)
+    def build_heap(self, arr: List, heap_size: int):
+        for i in range((heap_size//2), -1, -1): # Sort from the halfway back through the array
+            self.sink(arr, heap_size, i)
 
-arr = [3, 20, 1, 5, 2, 200, 100, 98, 250]
-heapSort(arr)
+arr = [3, 20, 4, 5, 2, 200, 100, 98, 250]
+s = heapSort()
+arr = s.heapSort(arr)
 print(arr)
